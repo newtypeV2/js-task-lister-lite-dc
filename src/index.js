@@ -15,14 +15,23 @@ function divExist(priority){
   return document.getElementById(`div-${priority}`) ? true : false
 }
 
-function createNewLi(){
+function createNewLi(string){
   let newTodo = document.createElement('li');
-  newTodo.innerText = textField.value;
+  newTodo.innerText = string;
   let newButton = document.createElement('button')
   newButton.innerText = 'X';
+  let newEditButton = document.createElement('button')
+  newEditButton.innerText = 'EDIT';
   newTodo.appendChild(newButton);
+  newTodo.appendChild(newEditButton);
   newButton.addEventListener('click', function() {
     newTodo.remove();
+    });
+  newEditButton.addEventListener('click',function() {
+    let newText = prompt("Please enter new task.")
+    newTodo.innerText=newText;
+    newTodo.appendChild(newButton);
+    newTodo.appendChild(newEditButton);
     });
   return newTodo;
 }
@@ -52,7 +61,7 @@ function divCreator(priority){
     //handler for submit button for todo list item
 function submitHandler(e) {
   if (textField.value){
-    let newLi=createNewLi();
+    let newLi=createNewLi(textField.value);
     if (divExist(priority.value)){
       let priorityDiv = document.getElementById(`div-${priority.value}`);
       priorityDiv.appendChild(newLi);
