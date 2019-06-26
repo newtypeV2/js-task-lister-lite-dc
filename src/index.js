@@ -9,6 +9,25 @@ function divExist(priority){
   return document.getElementById(`div-${priority}`) ? true : false
 }
 
+function deleteHandler(e){
+  e.target.parentElement.remove();
+}
+
+function editHandler(deleteButton,editButton){
+  return function (e){
+      const oldText = e.target.parentElement.innerHTML.split("<b")[0];
+      const parent = e.target.parentElement;
+      let newText = prompt("Please enter new task.")
+      while (newText===""){
+          newText = prompt("Please enter new task.","Can't be empty.")
+        }
+      (newText === null) ? e.target.parentElement.innerText=oldText : e.target.parentElement.innerText=newText
+      parent.appendChild(deleteButton);
+      parent.appendChild(editButton);
+  }
+}
+
+
 function createNewLi(string){
   let newTodo = document.createElement('li');
   let newButton = document.createElement('button')
@@ -18,19 +37,8 @@ function createNewLi(string){
   newEditButton.innerText = 'EDIT';
   newTodo.appendChild(newButton);
   newTodo.appendChild(newEditButton);
-  newButton.addEventListener('click', function() {
-    newTodo.remove();
-    });
-  newEditButton.addEventListener('click',function(e) {
-    const oldText = e.target.parentElement.innerHTML.split("<b")[0]
-    let newText = prompt("Please enter new task.")
-    while (newText===""){
-        newText = prompt("Please enter new task.","Can't be empty.")
-      }
-    (newText === null) ? newTodo.innerText=oldText : newTodo.innerText=newText
-    newTodo.appendChild(newButton);
-    newTodo.appendChild(newEditButton);
-    });
+  newButton.addEventListener('click', deleteHandler);
+  newEditButton.addEventListener('click', editHandler(newButton,newEditButton));
   return newTodo;
 }
 
@@ -52,11 +60,6 @@ function divCreator(priority){
     return newDiv;
   }
 }
-
-
-  
-
-
 
 function submitHandler(e) {
   let tasks = document.getElementById('tasks');
