@@ -27,9 +27,13 @@ function createNewLi(string){
   newButton.addEventListener('click', function() {
     newTodo.remove();
     });
-  newEditButton.addEventListener('click',function() {
+  newEditButton.addEventListener('click',function(e) {
+    const oldText = e.target.parentElement.innerHTML.split("<b")[0]
     let newText = prompt("Please enter new task.")
-    newTodo.innerText=newText;
+    while (newText===""){
+      newText = prompt("Please enter new task.","Can't be empty.")
+    }
+    (newText === null) ? newTodo.innerText=oldText : newTodo.innerText=newText
     newTodo.appendChild(newButton);
     newTodo.appendChild(newEditButton);
     });
